@@ -12,5 +12,21 @@
 <body>
   <h1>💪선생님, 감사합니다!</h1>
   <p class="coming">🚧 Coming Soon: 투표, 이스터에그, 방문자 카운트...</p>
+  <section id="whatsnew">
+    <h3>🛠️ 공사 일지</h3>
+    <ul id="log"></ul>
+    <small id="updated"></small>
+  </section>
 </body>
+<script>
+  const FEED = "https://raw.githubusercontent.com/<user>/<repo>/main/updates.json";
+  async function showLog(){
+    const r = await fetch(FEED, {cache:'no-store'});
+    const data = await r.json(); // [{date:"2025-08-13", text:"감사 카피 추가"}, ...]
+    const ul = document.getElementById('log');
+    ul.innerHTML = data.slice(0,5).map(i=>`<li><b>${i.date}</b> — ${i.text}</li>`).join('');
+    document.getElementById('updated').textContent = `last update: ${data[0]?.date||'-'}`;
+  }
+  showLog();
+</script>
 </html>
